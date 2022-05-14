@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub search</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Favorites -->
+        <div class="favorites">
+            <div class="favorite" v-for="favorite in allFavorites">
+                <a :href="favorite.blog" target="_blank">
+                    <img :src="favorite.avatar_url" :alt="favorite.name" class="favorite__avatar"/>
+                </a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <article class="content">
+            <h1 class="content__title"> Search GitHub Users</h1>
+
+            <!-- Search -->
+            <form class="search" v-on:submit.prevent="doSearch()">
+                <input v-model="search" type="text" class="search__input" required placeholder="Search GitHub users">
+                <input type="submit" class="search__submit btn btn-primary" value="Search">
+            </form>
+
+            <!-- Result -->
+            <div class="result" v-if="result">
+                <div class="card bg-info">
+                    <div class="card-header">
+                        <img v-bind:src="result.avatar_url" :alt="result.name" class="result__avatar"/>
+                        <a v-if="isFavorite" href="#" class="result__toggle-favorite" @click="removeFavorite">Remove Favorite &#11088;</a>
+                        <a v-else href="#" class="result__toggle-favorite" @click="addFavorite">Add Favorite &#11088;</a>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="result__name">Nombre: {{ result.login }}</h2>
+                        <p class="result__bio">{{ result.bio }}
+                            <br>
+                            <a v-bind:href="result.blog" target="_blank" class="result__blog">{{ result.blog }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p v-else>Waiting for Search</p>
+            <!-- Error -->
+            <div class="result__error" v-if="error">{{ error }}</div>
+        </article>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        const mountedApp = app.mount("#app");
+    </script>
+</body>
+
+</html>
