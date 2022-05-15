@@ -42,7 +42,7 @@
             <div class="result" v-if="result">
                 <div class="card bg-info">
                     <div class="card-header">
-                        <img v-bind:src="result.avatar_url" :alt="result.name" class="result__avatar"/>
+                        <img v-bind:src="result.avatar_url" alt="result.name" class="result__avatar"/>
                         <a v-if="isFavorite" href="#" class="result__toggle-favorite" @click="removeFavorite">Remove Favorite &#11088;</a>
                         <a v-else href="#" class="result__toggle-favorite" @click="addFavorite">Add Favorite &#11088;</a>
                     </div>
