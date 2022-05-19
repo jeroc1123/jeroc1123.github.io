@@ -29,9 +29,9 @@
                         <div class="form-group row">
                             <div class="col-12">
                                 <label for="listaPaises">Selecciona pais de la Lista:</label>
-                                <select v-model="pais" class="custom-select" id="listaPaises">
-                                    <option value="-1" selected>Seleccione un pais</option>
-                                    <option v-for="ele in allPaises" :value="ele.country-code">{{ ele.name }}</option>
+                                <select class="form-control" :required="true" id="listaPaises">
+                                    <option :selected="true" value="-1">Seleccione un pais</option>
+                                    <option v-for="ele in todosLosPaises" :value="ele[0]">{{ ele[1].name }}</option>
                                 </select> 
                             </div>
                         </div>

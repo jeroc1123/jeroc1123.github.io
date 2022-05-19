@@ -1,4 +1,6 @@
 const API = "https://api.github.com/users/";
+const WEATHER = "api.openweathermap.org/data/2.5/weather?APPID=6cbab6215c7af107c3c1331606080589&q=";
+const WEATHER2 = "&lang=es&units=metric";
 
 const app = Vue.createApp({
     data() {
@@ -6,10 +8,15 @@ const app = Vue.createApp({
             error: null,
             favorites: new Map(),
             countries: new Map(),
-            resultPaises: null,
+            resultPaises: {
+                p: new Object
+            },
             errorPaises: null,
             pais: null,
             localidad: null,
+            pronostico: null,
+            selected: "Selecciona País",
+
         };
     },
     created() {
@@ -18,13 +25,6 @@ const app = Vue.createApp({
             const favorites = new Map(savedFavorites.map(favorite => [favorite.id, favorite]))
             this.favorites = favorites
         };
-
-        const response = fetch("./js/countries.json")
-                        .then(response => response.json())
-                        .then(result => this.resultPaises = result);
-        for (p in this.resultPaises) {
-            this.countries.set(p.country-code, p);
-        }
     },
     computed: {
         isFavorite() {
@@ -33,23 +33,53 @@ const app = Vue.createApp({
         allFavorites() {
             return Array.from(this.favorites.values())
         },
-        allPaises() {
-            return this.resultPaises.paises
-        }
+        async allPaises() {
+            this.resultPaises = this.error = null
+            const resp = await fetch("./js/countries.json")
+            if (resp.ok) {
+                const data = await resp.json()
+                this.resultPaises = data 
+            } else {
+                throw new Error("error cargando paises")
+            }
+        },
+        todosLosPaises(){
+
+            //var { p } = this.resultPaises
+            let arr = {
+                get: function (p, receiver) {
+                    return Reflect.get(...arguments)
+                }
+            }
+
+            const prox = new Proxy(this.resultPaises, arr)
+            if (this.resultPaises.p.length > 0) {
+                for (let pais of this.resultPaises.p) {
+                    this.countries.set(parseInt(pais.countrycode), pais)
+                }
+            }
+
+            return this.countries;
+        },
     },
     methods: {
+        cargarPaises(response) {
+
+        },
         async doSearch() {
-            this.result = this.error = null
+            this.pronostico = this.error = null
             try {
-                const response = await fetch(API + this.search)
-                if (!response.ok) throw new Error("Usuario no encontrado")
-                const data = await response.json()
-                this.result = data  
+                const response = await fetch(WEATHER + this.localidad + ',' + this.pais + WEATHER2);
+                if (!response.ok) throw new Error("Pronóstico no encontrado")
+                    const data = await response.json()
+                    this.pronostico = data  
             } catch (error) {
                 this.error = error
             } finally {
-                this.search = null
+                this.localidad = null
             }
+     
+            return this.pronostico
         },
 
         addFavorite() {
@@ -64,5 +94,5 @@ const app = Vue.createApp({
         updateStorage() {
             window.localStorage.setItem('favorites',JSON.stringify(this.allFavorites))
         },
-    }
+    },
 });
