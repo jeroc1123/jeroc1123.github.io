@@ -29,35 +29,33 @@
                     <div class="col-12">
                         <div class="form-group row">
                             <div class="col-12">
-                                <label for="listaPaises">Selecciona pais de la Lista:</label>
-                                <select class="form-control" :required="true" id="listaPaises" @change="cambiaProvincia">
-                                    <option :selected="true">Seleccione un pais</option>
+                                <label for="listaPaises">País:</label>
+                                <select class="form-control" :required="true" id="pais" title="pais" @click="cambiaPais">
+                                    <option :selected="true" value="-1">Seleccione un pais</option>
                                     <option v-for="ele in countries" :value="ele[0]">{{ ele[1].name }}</option>
                                 </select> 
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-12">
-                                <label for="localidad">Nombre de la localidad:</label>
-                                <input v-model="search" type="text" class="form-control" required placeholder="Introduce el nombre de la localidad">
+                                <label for="localidad">Localidad:</label>
+                                <input v-model="localidad" type="text" class="form-control" required placeholder="Introduce el nombre de la localidad">
                             </div>
                         </div>
-
+                        <input type="submit" class="search__submit btn btn-primary" value="Search">
                     </div>
                 </form>
                 <!-- Result -->
-                <div class="result" v-if="result">
+                <div class="result" v-if="pronostico">
                     <div class="card bg-info">
                         <div class="card-header">
-                            <img v-bind:src="result.avatar_url" alt="result.name" class="result__avatar"/>
-                            <a v-if="isFavorite" href="#" class="result__toggle-favorite" @click="removeFavorite">Remove Favorite &#11088;</a>
-                            <a v-else href="#" class="result__toggle-favorite" @click="addFavorite">Add Favorite &#11088;</a>
+                            <h2 class="result__name">Latitud: {{ pronostico.coord.lat }} Longitud: {{ pronostico.coord.lon }}</h2>
                         </div>
                         <div class="card-body">
-                            <h2 class="result__name">Nombre: {{ result.login }}</h2>
-                            <p class="result__bio">{{ result.bio }}
+                            <h2 class="result__name">Localidad: {{ pronostico.name }}</h2>
+                            <p class="result__bio">Pronóstico: {{ pronostico.weather[0].description }}
                                 <br>
-                                <a v-bind:href="result.blog" target="_blank" class="result__blog">{{ result.blog }}</a>
+                                <a v-bind:href="" target="_blank" class="result__blog"></a>
                             </p>
                         </div>
                     </div>
