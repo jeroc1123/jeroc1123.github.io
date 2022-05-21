@@ -1,5 +1,5 @@
 const API = "https://api.github.com/users/";
-const WEATHER = "api.openweathermap.org/data/2.5/weather?APPID=6cbab6215c7af107c3c1331606080589&q=";
+const WEATHER = "https://api.openweathermap.org/data/2.5/weather?APPID=6cbab6215c7af107c3c1331606080589&q=";
 const WEATHER2 = "&lang=es&units=metric";
 
 const app = Vue.createApp({
@@ -23,12 +23,6 @@ const app = Vue.createApp({
 
     },
     computed: {
-        isFavorite() {
-            return this.favorites.has(this.result.id)
-        },
-        allFavorites() {
-            return Array.from(this.favorites.values())
-        },
 
         // todosLosPaises(){
 
@@ -51,13 +45,15 @@ const app = Vue.createApp({
         // },
     },
     methods: {
-        cambiaProvincia() {
-            this.pais = listaPaises.value
+        cambiaPais() {
+            this.pais = pais.value
         },
         async doSearch() {
             this.pronostico = this.error = null
             try {
-                const response = await fetch(WEATHER + this.localidad + ',' + this.pais + WEATHER2);
+                const url = WEATHER + this.localidad + ',' + this.pais + WEATHER2
+                console.log(url)
+                const response = await fetch(url);
                 if (!response.ok) throw new Error("Pronóstico no encontrado")
                     const data = await response.json()
                     this.pronostico = data  
@@ -65,6 +61,8 @@ const app = Vue.createApp({
                 this.error = error
             } finally {
                 this.localidad = null
+                this.pais = null
+                pais.value = "-1"
             }
      
             return this.pronostico
