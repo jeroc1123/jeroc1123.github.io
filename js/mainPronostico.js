@@ -34,37 +34,31 @@ const app = Vue.createApp({
             return Array.from(this.favorites.values())
         },
         async allPaises() {
-            this.resultPaises = this.error = null
-            const resp = await fetch("./js/countries.json")
-            if (resp.ok) {
-                const data = await resp.json()
-                this.resultPaises = data 
-            } else {
-                throw new Error("error cargando paises")
-            }
+
         },
         todosLosPaises(){
 
             //var { p } = this.resultPaises
-            let arr = {
-                get: function (p, receiver) {
-                    return Reflect.get(...arguments)
-                }
-            }
+            // let arr = {
+            //     get: function (p, receiver) {
+            //         return Reflect.get(...arguments)
+            //     }
+            // }
 
-            const prox = new Proxy(this.resultPaises, arr)
-            if (this.resultPaises.p.length > 0) {
-                for (let pais of this.resultPaises.p) {
-                    this.countries.set(parseInt(pais.countrycode), pais)
-                }
-            }
+            // const prox = new Proxy(this.resultPaises, arr)
+            // if (this.resultPaises.p.length > 0) {
+            //     for (let pais of this.resultPaises.p) {
+            //         //this.countries.set(parseInt(pais.countrycode), pais)
+            //         this.countries.set(pais.countrycode, pais)
+            //     }
+            // }
 
             return this.countries;
         },
     },
     methods: {
-        cargarPaises(response) {
-
+        cambiaProvincia() {
+            this.pais = listaPaises.value
         },
         async doSearch() {
             this.pronostico = this.error = null
@@ -94,5 +88,22 @@ const app = Vue.createApp({
         updateStorage() {
             window.localStorage.setItem('favorites',JSON.stringify(this.allFavorites))
         },
+    },
+    mounted () {
+        this.error = null
+        axios.get("./js/countries.json")
+            .then(response => {
+                console.log("response.json " + response)
+                this.resultPaises = response.data.p
+                console.log("this.resultPaises " + this.resultPaises)
+                if (this.resultPaises.length > 0 ) {
+                    for (let pais of this.resultPaises) {
+                        //this.countries.set(parseInt(pais.countrycode), pais)
+                        this.countries.set(pais.countrycode, pais)
+                    }
+                }
+            })
+            .catch(error => {this.errorPaises = error})
+            .finally(() => this.error = null)
     },
 });
