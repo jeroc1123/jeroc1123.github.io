@@ -29,10 +29,8 @@ const app = Vue.createApp({
         allFavorites() {
             return Array.from(this.favorites.values())
         },
-        async allPaises() {
 
-        },
-        todosLosPaises(){
+        // todosLosPaises(){
 
             //var { p } = this.resultPaises
             // let arr = {
@@ -49,8 +47,8 @@ const app = Vue.createApp({
             //     }
             // }
 
-            return this.countries;
-        },
+        //     return this.countries;
+        // },
     },
     methods: {
         cambiaProvincia() {
