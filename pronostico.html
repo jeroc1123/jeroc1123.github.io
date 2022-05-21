@@ -32,7 +32,7 @@
                                 <label for="listaPaises">Selecciona pais de la Lista:</label>
                                 <select class="form-control" :required="true" id="listaPaises" @change="cambiaProvincia">
                                     <option :selected="true">Seleccione un pais</option>
-                                    <option v-for="ele in todosLosPaises" :value="ele[0]">{{ ele[1].name }}</option>
+                                    <option v-for="ele in countries" :value="ele[0]">{{ ele[1].name }}</option>
                                 </select> 
                             </div>
                         </div>
