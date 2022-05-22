@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,57 +20,75 @@
 </head>
 
 <body>
-    <div id="app" class="jumbotron">
-        <div class="row">
-            <!-- Content -->
-            <article class="content">
-                <h1 class="content__title">La pagina del tiempo</h1>
-                            <!-- Search -->
-                <form class="search" v-on:submit.prevent="doSearch()">
-                    <div class="col-12">
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <label for="listaPaises">País:</label>
-                                <select class="form-control" :required="true" id="pais" title="pais" @click="cambiaPais">
-                                    <option :selected="true" value="-1">Seleccione un pais</option>
-                                    <option v-for="ele in countries" :value="ele[0]">{{ ele[1].name }}</option>
-                                </select> 
+    <div id="app" class="">
+        <div class="container container-fluid">
+            <div class="jumbotron bg-gradient-success text-gray-200 text-lg">
+                <!-- Content -->
+                <article class="content">
+                    <!-- Search -->
+                    <form class="" v-on:submit.prevent="doSearch()">
+                        <div class="col-12">
+                            <h2 class="h2">Meteorologia</h2>
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <label for="listaPaises">País:</label>
+                                    <select class="form-control" :required="true" id="pais" title="pais"
+                                        @click="cambiaPais">
+                                        <option :selected="true" value="-1">Seleccione un pais</option>
+                                        <option v-for="ele in countries" :value="ele[0]">{{ ele[1].name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <label for="localidad">Localidad:</label>
+                                    <div class="input-group">
+                                        <input v-model="localidad" type="text"
+                                            class="form-control bg-light border-0 small"
+                                            placeholder="Introduce el nombre de la localidad..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <input type="submit" class="btn btn-danger" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                            </input>
+                                        </div>
+                                        </input>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <label for="localidad">Localidad:</label>
-                                <input v-model="localidad" type="text" class="form-control" required placeholder="Introduce el nombre de la localidad">
+                    </form>
+                    <!-- Result -->
+                    <div class="row col-12">
+                        <div class="col-12" v-if="pronostico">
+                            <div class="card bg-danger">
+                                <div class="card-header bg-danger">
+                                    <h2 class="">Latitud: {{ pronostico.coord.lat }} Longitud: {{
+                                        pronostico.coord.lon }}</h2>
+                                </div>
+                                <div class="card-body">
+                                    <h2 class="">Localidad: {{ pronostico.name }}</h2>
+                                    <p class="result__bio">Pronóstico: {{ pronostico.weather[0].description }}
+                                        <br>
+                                        <a v-bind:href="" target="_blank" class="result__blog"></a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <input type="submit" class="search__submit btn btn-primary" value="Search">
-                    </div>
-                </form>
-                <!-- Result -->
-                <div class="result" v-if="pronostico">
-                    <div class="card bg-info">
-                        <div class="card-header">
-                            <h2 class="result__name">Latitud: {{ pronostico.coord.lat }} Longitud: {{ pronostico.coord.lon }}</h2>
-                        </div>
-                        <div class="card-body">
-                            <h2 class="result__name">Localidad: {{ pronostico.name }}</h2>
-                            <p class="result__bio">Pronóstico: {{ pronostico.weather[0].description }}
-                                <br>
-                                <a v-bind:href="" target="_blank" class="result__blog"></a>
-                            </p>
+                        <div class="col-12" v-else>
+                            <p>Espero tus ordenes</p>
                         </div>
                     </div>
-                </div>
-                <p v-else>Waiting for Search</p>
-                <!-- Error -->
-                <div class="result__error" v-if="error">{{ error }}</div>
-            </article>
+                    <!-- Error -->
+                    <div class="result__error" v-if="error">{{ error }}</div>
+                </article>
+            </div>
         </div>
     </div>
-        <script src="js/mainPronostico.js"></script>
-        <script>
-            const mountedApp = app.mount("#app");
-            </script>
+    <script src="js/mainPronostico.js"></script>
+    <script>
+        const mountedApp = app.mount("#app");
+    </script>
 </body>
 
 </html>
