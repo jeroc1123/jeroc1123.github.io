@@ -19,23 +19,23 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
-<body class="bg-gradient-blue">
+<body class="bg-gray-dark">
     <div id="app" class="">
         <div class="container">
-            <div class="jumbotron bg-gradient-blue justify-content-center text-lg">
+            <div class="jumbotron bg-gray-dark justify-content-center text-lg">
                 <!-- Content -->
                 <article class="content">
                     <!-- Search -->
                     <form class="" v-on:submit.prevent="doSearch()">
                         <div class="col-12">
                             <h2 class="h2 text-neutral">Meteorologia</h2>
-                            <div class="form-group input-group">
+                            <div class="form-group input-group text-dark">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
                                         <i class="ni ni-bag-17"></i>
                                     </span>
                                 </div>
-                                <select class="form-control" :required="true" id="pais" 
+                                <select class="form-control text-dark" :required="true" id="pais" 
                                         title="pais" @click="cambiaPais" aria-describedby="addon-right addon-left">
                                     <option :selected="true" value="-1">Seleccione un pais</option>
                                     <option v-for="ele in countries" :value="ele[0]">{{ ele[1].name }}</option>
@@ -48,7 +48,7 @@
                                     </span>
                                 </div>
                                 <input v-model="localidad" type="text" aria-describedby="addon-right addon-left"
-                                    placeholder="Introduce el nombre de la localidad..." class="form-control">
+                                    placeholder="Introduce el nombre de la localidad..." class="text-dark form-control">
                                 <div class="input-group-append">
                                     <input type="submit" class="btn btn-danger" type="button" />
                                 </div>
@@ -56,18 +56,18 @@
                         </div>
                     </form>
                     <!-- Result -->
-                    <div class="form-group ">
+                    <div class="form-group">
                         <div class="col-12" v-if="pronostico">
                             <div class="card-body py-5 bg-white">
                                 <div class="icon icon-shape mb-4 icon-shape-primary rounded-circle">
                                     <i class="ni ni-check-bold"></i>
                                 </div>
                                 <h6 class="text-primary text-uppercase">{{ pronostico.name }}</h6>
-                                <p class="description mt-3">Latitud: {{ pronostico.coord.lat }} Longitud: {{pronostico.coord.lon }}</p>
-                                <p class="description mt-3">Temperatura: {{ pronostico.main.temp }} Min-Max: {{ pronostico.main.temp_min }} - {{ pronostico.main.temp_max }}</p>                                    
-                                <p class="description mt-3">Humedad: {{ pronostico.main.humidity }}</p>
-                                <p class="description mt-3">Viento n/h: {{ pronostico.wind.speed }}</p>                                    
-                                <p class="description mt-3">Pronóstico: {{ pronostico.weather[0].description }}</p>
+                                <p class="text-dark font-weight-400 description mt-3">Latitud: {{ pronostico.coord.lat }} Longitud: {{pronostico.coord.lon }}</p>
+                                <p class="text-dark font-weight-400 description mt-3">Temperatura: {{ pronostico.main.temp }} Min-Max: {{ pronostico.main.temp_min }} - {{ pronostico.main.temp_max }}</p>                                    
+                                <p class="text-dark font-weight-400 description mt-3">Humedad: {{ pronostico.main.humidity }} %</p>
+                                <p class="text-dark font-weight-400 description mt-3">Viento n/h: {{ pronostico.wind.speed }}</p>                                    
+                                <p class="text-dark font-weight-400 description mt-3">Pronóstico: {{ pronostico.weather[0].description }}</p>
                             </div>
                         </div>
                         <div class="input-group" v-else>
