@@ -26,20 +26,20 @@ const app = Vue.createApp({
 
         // todosLosPaises(){
 
-            //var { p } = this.resultPaises
-            // let arr = {
-            //     get: function (p, receiver) {
-            //         return Reflect.get(...arguments)
-            //     }
-            // }
+        //var { p } = this.resultPaises
+        // let arr = {
+        //     get: function (p, receiver) {
+        //         return Reflect.get(...arguments)
+        //     }
+        // }
 
-            // const prox = new Proxy(this.resultPaises, arr)
-            // if (this.resultPaises.p.length > 0) {
-            //     for (let pais of this.resultPaises.p) {
-            //         //this.countries.set(parseInt(pais.countrycode), pais)
-            //         this.countries.set(pais.countrycode, pais)
-            //     }
-            // }
+        // const prox = new Proxy(this.resultPaises, arr)
+        // if (this.resultPaises.p.length > 0) {
+        //     for (let pais of this.resultPaises.p) {
+        //         //this.countries.set(parseInt(pais.countrycode), pais)
+        //         this.countries.set(pais.countrycode, pais)
+        //     }
+        // }
 
         //     return this.countries;
         // },
@@ -55,8 +55,8 @@ const app = Vue.createApp({
                 console.log(url)
                 const response = await fetch(url);
                 if (!response.ok) throw new Error("Pronóstico no encontrado")
-                    const data = await response.json()
-                    this.pronostico = data  
+                const data = await response.json()
+                this.pronostico = data
             } catch (error) {
                 this.error = error
             } finally {
@@ -64,7 +64,7 @@ const app = Vue.createApp({
                 this.pais = null
                 pais.value = "-1"
             }
-     
+
             return this.pronostico
         },
 
@@ -78,24 +78,24 @@ const app = Vue.createApp({
             this.updateStorage()
         },
         updateStorage() {
-            window.localStorage.setItem('favorites',JSON.stringify(this.allFavorites))
+            window.localStorage.setItem('favorites', JSON.stringify(this.allFavorites))
         },
     },
-    mounted () {
+    mounted() {
         this.error = null
         axios.get("./js/countries.json")
             .then(response => {
                 console.log("response.json " + response)
                 this.resultPaises = response.data.p
                 console.log("this.resultPaises " + this.resultPaises)
-                if (this.resultPaises.length > 0 ) {
+                if (this.resultPaises.length > 0) {
                     for (let pais of this.resultPaises) {
                         //this.countries.set(parseInt(pais.countrycode), pais)
                         this.countries.set(pais.countrycode, pais)
                     }
                 }
             })
-            .catch(error => {this.errorPaises = error})
+            .catch(error => { this.errorPaises = error })
             .finally(() => this.error = null)
     },
 });
